@@ -5,12 +5,12 @@ import styled from "styled-components";
 
 const Headerdiv = styled(motion.span)`
   width: 100%;
-  height: 80px;
+  height: 13vh;
   background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px;
+  padding: 0 3vw;
   box-sizing: border-box;
   position: fixed;
 `;
@@ -18,13 +18,14 @@ const Logo = styled.img`
   width: 90px;
   cursor: pointer;
 `;
-const Comein = styled.span`
+export const Comein = styled.span`
   background-color: #ff0097;
   color: white;
-  padding: 10px 15px;
-  font-size: 13px;
-  border-radius: 15px;
+  padding: 1.5vw 3vw;
+  font-size: 2vw;
+  border-radius: 30px;
   font-weight: 900;
+  cursor: pointer;
 `;
 const navVariants = {
   top: {
