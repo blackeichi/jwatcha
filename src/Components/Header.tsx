@@ -5,24 +5,25 @@ import styled from "styled-components";
 
 const Headerdiv = styled(motion.span)`
   width: 100%;
-  height: 13vh;
+  height: 9vh;
   background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3vw;
+  padding: 0 4vw;
   box-sizing: border-box;
   position: fixed;
+  z-index: 1;
 `;
 const Logo = styled.img`
-  width: 90px;
+  width: 12vh;
   cursor: pointer;
 `;
 export const Comein = styled.span`
   background-color: #ff0097;
   color: white;
-  padding: 1.5vw 3vw;
-  font-size: 2vw;
+  padding: 1.2vh 2vh;
+  font-size: 1.2vh;
   border-radius: 30px;
   font-weight: 900;
   cursor: pointer;
@@ -52,19 +53,11 @@ function Header() {
   return (
     <Headerdiv variants={navVariants} animate={scrollAni} initial={"top"}>
       <Link to="/">
-        <Logo
-          className="_7QUkiw9R"
-          width="100%"
-          src="//w.namu.la/s/806795f01bfdb99ee07ef5ed4d26c7a76ce99bddf229f51418d040f4387944e4e06d19bcbd84da2a179de6273e3ca30f084aabc97154fb91a2f167ee349cec6dfcdd45699b15055db7b8e25be479ae9514c87130bb925e1513c027a442e264bc"
-          data-filesize="1540"
-          data-src="//w.namu.la/s/806795f01bfdb99ee07ef5ed4d26c7a76ce99bddf229f51418d040f4387944e4e06d19bcbd84da2a179de6273e3ca30f084aabc97154fb91a2f167ee349cec6dfcdd45699b15055db7b8e25be479ae9514c87130bb925e1513c027a442e264bc"
-          alt="왓챠 로고"
-          data-v-ed82b693=""
-          loading="lazy"
-        ></Logo>
+        <Logo src="https://upload.wikimedia.org/wikipedia/commons/b/b8/%EC%99%93%EC%B1%A0_%EB%A1%9C%EA%B3%A0_2021.png" />
       </Link>
-
-      <Comein>입장하기</Comein>
+      <Comein style={{ backgroundColor: "white", color: "black" }}>
+        입장하기
+      </Comein>
     </Headerdiv>
   );
 }

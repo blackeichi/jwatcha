@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getPopularTv, IGetTvsResult, makeImg } from "../apit";
 import Header, { Comein } from "../Components/Header";
-
+//index로 페이지 이동 구현하기.
 const Loading = styled.div``;
 const Banner = styled.div<{ bgphoto: string }>`
   height: 100vh;
@@ -14,13 +14,14 @@ const Banner = styled.div<{ bgphoto: string }>`
     url(${(props) => props.bgphoto});
   background-size: cover;
   background-position: center;
+  position: relative;
 `;
 const BannerTitle = styled.h1`
   font-size: 3.8vw;
   color: white;
   font-weight: 800;
   padding: 5vh 0;
-  margin-top: 25vh;
+  margin-top: 15vh;
 `;
 const BannerSub = styled.h1`
   font-size: 2vw;
@@ -52,16 +53,22 @@ function Home() {
               style={{
                 marginTop: "8vh",
                 marginBottom: "10vh",
-                fontSize: "3.5vw",
-                padding: "2vw 4vw",
+                fontSize: "1.5vw",
+                padding: "1.5vw 3vw",
                 backgroundColor: "#f70776",
               }}
             >
-              입장하기
+              이용해보기
             </Comein>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              style={{ width: "10vw", color: "white", cursor: "pointer" }}
+              style={{
+                position: "absolute",
+                width: "5vh",
+                color: "white",
+                cursor: "pointer",
+                bottom: "35",
+              }}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -76,26 +83,69 @@ function Home() {
           </Banner>
           {popularTv?.results.slice(1, 2).map((tvshow) => (
             <Banner bgphoto={makeImg(tvshow.backdrop_path || "")}>
-              <BannerTitle>
-                영화, 드라마, 예능, 다큐멘터리를 무제한으로
-              </BannerTitle>
+              <BannerTitle>여럿이 함께, 하나의 이용권으로</BannerTitle>
               <BannerSub>
-                매주 5백 여편의 신작이 업데이트 되며, 추가 요금은 전혀 없어요
+                동시 4개 기기에서 재생이 가능한 프리미엄 이용권을 이용해보세요.
               </BannerSub>
               <Comein
                 style={{
                   marginTop: "8vh",
                   marginBottom: "10vh",
-                  fontSize: "3.5vw",
-                  padding: "2vw 4vw",
+                  fontSize: "1.5vw",
+                  padding: "1.5vw 3vw",
                   backgroundColor: "#f70776",
                 }}
               >
-                입장하기
+                이용해보기
               </Comein>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                style={{ width: "10vw", color: "white", cursor: "pointer" }}
+                style={{
+                  position: "absolute",
+                  width: "5vh",
+                  color: "white",
+                  cursor: "pointer",
+                  bottom: "35",
+                }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="1"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                />
+              </svg>
+            </Banner>
+          ))}
+          {popularTv?.results.slice(2, 3).map((tvshow) => (
+            <Banner bgphoto={makeImg(tvshow.backdrop_path || "")}>
+              <BannerTitle>이동 중에도 감상을 멈추지 마세요</BannerTitle>
+              <BannerSub>
+                보고 싶은 콘텐츠를 다운로드하여 오프라인으로 즐기세요.
+              </BannerSub>
+              <Comein
+                style={{
+                  marginTop: "8vh",
+                  marginBottom: "10vh",
+                  fontSize: "1.5vw",
+                  padding: "1.5vw 3vw",
+                  backgroundColor: "#f70776",
+                }}
+              >
+                이용해보기
+              </Comein>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  position: "absolute",
+                  width: "5vh",
+                  color: "white",
+                  cursor: "pointer",
+                  bottom: "35",
+                }}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
