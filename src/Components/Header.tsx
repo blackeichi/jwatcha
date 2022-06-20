@@ -42,7 +42,7 @@ function Header() {
   const scrollAni = useAnimation();
   useEffect(() => {
     scrollY.onChange(() => {
-      console.log(scrollY.get());
+      //console.log(scrollY.get());
       if (scrollY.get() > 80) {
         scrollAni.start("scroll");
       } else {
@@ -55,9 +55,18 @@ function Header() {
       <Link to="/">
         <Logo src="https://upload.wikimedia.org/wikipedia/commons/b/b8/%EC%99%93%EC%B1%A0_%EB%A1%9C%EA%B3%A0_2021.png" />
       </Link>
-      <Comein style={{ backgroundColor: "white", color: "black" }}>
-        입장하기
-      </Comein>
+      <Link to="/browse">
+        <a>
+          <Comein
+            style={{
+              backgroundColor: "white",
+              color: "black",
+            }}
+          >
+            입장하기
+          </Comein>
+        </a>
+      </Link>
     </Headerdiv>
   );
 }

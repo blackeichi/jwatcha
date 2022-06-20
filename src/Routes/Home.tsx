@@ -1,3 +1,5 @@
+import { useViewportScroll } from "framer-motion";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getPopularTv, IGetTvsResult, makeImg } from "../apit";
@@ -34,7 +36,20 @@ function Home() {
     ["tvshow", "popular"],
     getPopularTv
   );
-  console.log(popularTv?.results[0]);
+  const { scrollY } = useViewportScroll();
+
+  //console.log(popularTv?.results[0]);
+  const downClick = () => {
+    let pageHeight = window.innerHeight;
+    //console.log(pageHeight);
+    let scrollHeight = scrollY.get() % pageHeight;
+    //console.log(scrollHeight);
+    window.scrollBy(0, pageHeight - scrollHeight);
+  };
+  const upClick = () => {
+    let pageHeight = window.innerHeight;
+    window.scrollBy(0, -(2 * pageHeight));
+  };
   return (
     <>
       <Header></Header>
@@ -73,6 +88,7 @@ function Home() {
               viewBox="0 0 24 24"
               stroke="currentColor"
               strokeWidth="1"
+              onClick={downClick}
             >
               <path
                 strokeLinecap="round"
@@ -111,6 +127,7 @@ function Home() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth="1"
+                onClick={downClick}
               >
                 <path
                   strokeLinecap="round"
@@ -150,11 +167,12 @@ function Home() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
                 strokeWidth="1"
+                onClick={upClick}
               >
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
+                  d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"
                 />
               </svg>
             </Banner>

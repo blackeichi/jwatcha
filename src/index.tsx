@@ -52,6 +52,10 @@ const GlobalStyle = createGlobalStyle`
 		border-collapse: collapse;
 		border-spacing: 0;
 	}
+	a{
+		outline: none;
+		text-decoration:none;
+	}
 `;
 const client = new QueryClient();
 root.render(
