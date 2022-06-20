@@ -1,5 +1,11 @@
+import Side from "../Components/Side";
+
 function Video() {
-  return null;
+  return (
+    <>
+      <Side></Side>
+    </>
+  );
 }
 
 export default Video;
