@@ -2,7 +2,7 @@ import { useViewportScroll } from "framer-motion";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { getPopularTv, IGetTvsResult, makeImg } from "../apit";
+import { getPopularTv, IGetResult, makeImg } from "../apit";
 import Header, { Comein } from "../Components/Header";
 //index로 페이지 이동 구현하기.
 const Loading = styled.div``;
@@ -32,7 +32,7 @@ const BannerSub = styled.h1`
 `;
 
 function Home() {
-  const { data: popularTv, isLoading } = useQuery<IGetTvsResult>(
+  const { data: popularTv, isLoading } = useQuery<IGetResult>(
     ["tvshow", "popular"],
     getPopularTv
   );

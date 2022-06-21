@@ -4,8 +4,7 @@ import styled from "styled-components";
 import Sidebtn from "../Components/Sidebtn";
 
 const Sidepart = styled.div`
-  width: 35vw;
-  max-width: 300px;
+  width: 35vh;
   height: 100vh;
   position: fixed;
   background-color: #2e383f;
@@ -13,6 +12,12 @@ const Sidepart = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: none;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
 `;
 const Logo = styled.img`
   width: 15vh;

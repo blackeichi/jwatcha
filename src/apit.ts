@@ -5,7 +5,7 @@ export function makeImg(id: string, format?: string) {
   return `https://image.tmdb.org/t/p/${format ? format : "original"}/${id}`;
 }
 
-export interface IGetTvsResult {
+export interface IGetResult {
   page: number;
   results: [
     {
@@ -24,5 +24,10 @@ export interface IGetTvsResult {
 export function getPopularTv() {
   return fetch(
     `${BASE_PATH}/tv/popular?api_key=${API_KEY}&language=en-US&page=1`
+  ).then((response) => response.json());
+}
+export function getPopularMovie() {
+  return fetch(
+    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
   ).then((response) => response.json());
 }
