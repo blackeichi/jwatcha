@@ -34,7 +34,7 @@ const BannerSub = styled.h1`
 function Home() {
   const { data: popularTv, isLoading } = useQuery<IGetResult>(
     ["tvshow", "popular"],
-    getPopularTv
+    () => getPopularTv("popular")
   );
   const { scrollY } = useViewportScroll();
 

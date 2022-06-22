@@ -21,14 +21,14 @@ export interface IGetResult {
   ];
 }
 
-export function getPopularTv() {
+export function getPopularTv(genre?: string) {
   return fetch(
-    `${BASE_PATH}/tv/popular?api_key=${API_KEY}&language=en-US&page=1`
+    `${BASE_PATH}/tv/${genre}?api_key=${API_KEY}&language=en-US&page=1`
   ).then((response) => response.json());
 }
-export function getPopularMovie() {
+export function getPopularMovie(genre?: string) {
   return fetch(
-    `${BASE_PATH}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+    `${BASE_PATH}/movie/${genre}?api_key=${API_KEY}&language=en-US&page=1`
   ).then((response) => response.json());
 }
 export function getTrending() {

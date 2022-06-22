@@ -87,17 +87,53 @@ const Populardiv = styled.div<{ bgphoto: string }>`
   background-position: center;
 `;
 
+const ContentBtnlist = styled.div`
+  width: 100%;
+  display: flex;
+  padding: 30px 0;
+  gap: 10px;
+`;
+const ContentButton = styled.div`
+  max-width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-weight: 800;
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  font-size: 15px;
+  color: darkgray;
+`;
 function Video() {
   const { data: popularMovie, isLoading: popularLoading } =
-    useQuery<IGetResult>(["movies", "popular"], getPopularMovie);
+    useQuery<IGetResult>(["movies", "popular"], () =>
+      getPopularMovie("popular")
+    );
+  const { data: latestMovie, isLoading: latestLoading } = useQuery<IGetResult>(
+    ["movies", "latest"],
+    () => getPopularMovie("latest")
+  );
+  const { data: topratedMovie, isLoading: topratedLoading } =
+    useQuery<IGetResult>(["movies", "top_rated"], () =>
+      getPopularMovie("top_rated")
+    );
   const { data: popularTv, isLoading: popularTvLoading } = useQuery<IGetResult>(
     ["Tv", "popular"],
-    getPopularTv
+    () => getPopularTv("popular")
   );
+  const { data: latestTv, isLoading: latestTvLoading } = useQuery<IGetResult>(
+    ["Tv", "latest"],
+    () => getPopularTv("latest")
+  );
+  const { data: topratedTv, isLoading: topratedTvLoading } =
+    useQuery<IGetResult>(["Tv", "top_rated"], () => getPopularTv("top_rated"));
   const { data: trending, isLoading: trendingLoading } = useQuery<IGetResult>(
     ["trend", "trending"],
     getTrending
   );
+  const [content, setContent] = useState("all");
   const [small, setSmall] = useState(false);
   const [medium, setMedium] = useState(false);
   const handleResize = () => {
@@ -125,7 +161,9 @@ function Video() {
       setMedium(false);
     }
   }, []);
-  console.log(popularMovie);
+  const onClickcontent = (content: string) => {
+    setContent(content);
+  };
   return (
     <Homelayout>
       {small ? null : <Side></Side>}
@@ -194,6 +232,53 @@ function Video() {
               </Homecontentsemi>
             </Homecontent>
           </Home>
+          <ContentBtnlist>
+            <ContentButton
+              onClick={() => onClickcontent("all")}
+              style={
+                content === "all"
+                  ? {
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "3px solid white",
+                    }
+                  : {}
+              }
+            >
+              전체
+            </ContentButton>
+            <ContentButton
+              onClick={() => onClickcontent("movie")}
+              style={
+                content === "movie"
+                  ? {
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "3px solid white",
+                    }
+                  : {}
+              }
+            >
+              영화
+            </ContentButton>
+            <ContentButton
+              onClick={() => onClickcontent("tv")}
+              style={
+                content === "tv"
+                  ? {
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "3px solid white",
+                    }
+                  : {}
+              }
+            >
+              TV 프로그램
+            </ContentButton>
+          </ContentBtnlist>
+          {content === "all" ? <div>all</div> : null}
+          {content === "movie" ? <div>movie</div> : null}
+          {content === "tv" ? <div>tv</div> : null}
         </Content>
       </div>
     </Homelayout>
