@@ -34,7 +34,6 @@ const GlobalStyle = createGlobalStyle`
 		display: block;
 	}
 	body {
-		height : 200vh;
 		line-height: 1;
 	}
 	ol, ul {
