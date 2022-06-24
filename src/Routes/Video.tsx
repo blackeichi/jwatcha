@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -106,7 +107,9 @@ const ContentButton = styled.div`
   font-size: 15px;
   color: darkgray;
 `;
-const ContentLayout = styled.div``;
+const ContentLayout = styled(motion.div)`
+  position: relative;
+`;
 const ContentBox = styled.div`
   display: grid;
 `;
@@ -115,9 +118,15 @@ const ContentImg = styled.img`
   width: 100%;
 `;
 const IncreseIndexBtn = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: white;
+  width: 30px;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: absolute;
+  right: 0px;
+  top: 0;
+  display: none;
+  align-items: center;
+  cursor: pointer;
 `;
 
 function Video() {
@@ -191,6 +200,7 @@ function Video() {
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
   };
+  const [hover, setHover] = useState(false);
   return (
     <Homelayout>
       {small ? null : <Side></Side>}
@@ -305,25 +315,51 @@ function Video() {
           </ContentBtnlist>
           {content === "all" ? (
             <div>
-              <ContentLayout>
+              <ContentLayout
+                onHoverStart={() => setHover(true)}
+                onHoverEnd={() => setHover(false)}
+              >
                 <h1>왓챠 익스클루시브</h1>
-                <ContentBox
-                  style={
-                    !medium
-                      ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                      : { gridTemplateColumns: "repeat(6, 1fr)" }
-                  }
+                {topratedTvLoading ? (
+                  <div>loading...</div>
+                ) : (
+                  <ContentBox
+                    style={
+                      !medium
+                        ? { gridTemplateColumns: "repeat(3, 1fr)" }
+                        : { gridTemplateColumns: "repeat(6, 1fr)" }
+                    }
+                  >
+                    {topratedTv?.results
+                      .slice(0)
+                      .slice(offset * index, offset * index + offset)
+                      .map((data) => (
+                        <Content_sub key={data.id}>
+                          <ContentImg src={makeImg(data.poster_path)} />
+                        </Content_sub>
+                      ))}
+                  </ContentBox>
+                )}
+
+                <IncreseIndexBtn
+                  style={hover ? { display: "flex" } : { display: "none" }}
+                  onClick={increaseIndex}
                 >
-                  {topratedTv?.results
-                    .slice(0)
-                    .slice(offset * index, offset * index + offset)
-                    .map((data) => (
-                      <Content_sub>
-                        <ContentImg src={makeImg(data.poster_path)} />
-                      </Content_sub>
-                    ))}
-                </ContentBox>
-                <IncreseIndexBtn onClick={increaseIndex}></IncreseIndexBtn>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </IncreseIndexBtn>
               </ContentLayout>
             </div>
           ) : null}
