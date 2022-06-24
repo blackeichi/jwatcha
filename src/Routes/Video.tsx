@@ -106,6 +106,20 @@ const ContentButton = styled.div`
   font-size: 15px;
   color: darkgray;
 `;
+const ContentLayout = styled.div``;
+const ContentBox = styled.div`
+  display: grid;
+`;
+const Content_sub = styled.div``;
+const ContentImg = styled.img`
+  width: 100%;
+`;
+const IncreseIndexBtn = styled.div`
+  width: 50px;
+  height: 50px;
+  background-color: white;
+`;
+
 function Video() {
   const { data: popularMovie, isLoading: popularLoading } =
     useQuery<IGetResult>(["movies", "popular"], () =>
@@ -133,36 +147,49 @@ function Video() {
     ["trend", "trending"],
     getTrending
   );
+  const [offset, setOffset] = useState(6);
   const [content, setContent] = useState("all");
   const [small, setSmall] = useState(false);
   const [medium, setMedium] = useState(false);
   const handleResize = () => {
-    if (window.innerWidth <= 550) {
+    if (window.innerWidth <= 650) {
       setSmall(true);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 950) {
+    if (window.innerWidth >= 1000) {
       setMedium(true);
+      setOffset(6);
     } else {
       setMedium(false);
+      setOffset(3);
     }
   };
   window.addEventListener("resize", handleResize);
   useEffect(() => {
-    if (window.innerWidth <= 550) {
+    if (window.innerWidth <= 650) {
       setSmall(true);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 1100) {
+    if (window.innerWidth >= 1000) {
       setMedium(true);
+      setOffset(6);
     } else {
       setMedium(false);
+      setOffset(3);
     }
   }, []);
   const onClickcontent = (content: string) => {
     setContent(content);
+  };
+  const [index, setIndex] = useState(0);
+  const increaseIndex = () => {
+    if (topratedTv) {
+      const total = topratedTv.results.length - 2;
+      const maxIndex = Math.floor(total / offset) - 1;
+      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
+    }
   };
   return (
     <Homelayout>
@@ -276,7 +303,30 @@ function Video() {
               TV 프로그램
             </ContentButton>
           </ContentBtnlist>
-          {content === "all" ? <div>all</div> : null}
+          {content === "all" ? (
+            <div>
+              <ContentLayout>
+                <h1>왓챠 익스클루시브</h1>
+                <ContentBox
+                  style={
+                    !medium
+                      ? { gridTemplateColumns: "repeat(3, 1fr)" }
+                      : { gridTemplateColumns: "repeat(6, 1fr)" }
+                  }
+                >
+                  {topratedTv?.results
+                    .slice(0)
+                    .slice(offset * index, offset * index + offset)
+                    .map((data) => (
+                      <Content_sub>
+                        <ContentImg src={makeImg(data.poster_path)} />
+                      </Content_sub>
+                    ))}
+                </ContentBox>
+                <IncreseIndexBtn onClick={increaseIndex}></IncreseIndexBtn>
+              </ContentLayout>
+            </div>
+          ) : null}
           {content === "movie" ? <div>movie</div> : null}
           {content === "tv" ? <div>tv</div> : null}
         </Content>

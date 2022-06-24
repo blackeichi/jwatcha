@@ -1,6 +1,7 @@
 import { useViewportScroll } from "framer-motion";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { getPopularTv, IGetResult, makeImg } from "../apit";
 import Header, { Comein } from "../Components/Header";
@@ -64,17 +65,22 @@ function Home() {
             <BannerSub>
               매주 5백 여편의 신작이 업데이트 되며, 추가 요금은 전혀 없어요
             </BannerSub>
-            <Comein
-              style={{
-                marginTop: "8vh",
-                marginBottom: "10vh",
-                fontSize: "1.5vw",
-                padding: "1.5vw 3vw",
-                backgroundColor: "#f70776",
-              }}
+            <Link
+              style={{ marginTop: "8vh", marginBottom: "10vh" }}
+              to="/browse"
             >
-              이용해보기
-            </Comein>
+              <a>
+                <Comein
+                  style={{
+                    fontSize: "1.5vw",
+                    padding: "1.5vw 3vw",
+                    backgroundColor: "#f70776",
+                  }}
+                >
+                  이용해보기
+                </Comein>
+              </a>
+            </Link>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               style={{
@@ -103,17 +109,22 @@ function Home() {
               <BannerSub>
                 동시 4개 기기에서 재생이 가능한 프리미엄 이용권을 이용해보세요.
               </BannerSub>
-              <Comein
-                style={{
-                  marginTop: "8vh",
-                  marginBottom: "10vh",
-                  fontSize: "1.5vw",
-                  padding: "1.5vw 3vw",
-                  backgroundColor: "#f70776",
-                }}
+              <Link
+                style={{ marginTop: "8vh", marginBottom: "10vh" }}
+                to="/browse"
               >
-                이용해보기
-              </Comein>
+                <a>
+                  <Comein
+                    style={{
+                      fontSize: "1.5vw",
+                      padding: "1.5vw 3vw",
+                      backgroundColor: "#f70776",
+                    }}
+                  >
+                    이용해보기
+                  </Comein>
+                </a>
+              </Link>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
@@ -143,17 +154,22 @@ function Home() {
               <BannerSub>
                 보고 싶은 콘텐츠를 다운로드하여 오프라인으로 즐기세요.
               </BannerSub>
-              <Comein
-                style={{
-                  marginTop: "8vh",
-                  marginBottom: "10vh",
-                  fontSize: "1.5vw",
-                  padding: "1.5vw 3vw",
-                  backgroundColor: "#f70776",
-                }}
+              <Link
+                style={{ marginTop: "8vh", marginBottom: "10vh" }}
+                to="/browse"
               >
-                이용해보기
-              </Comein>
+                <a>
+                  <Comein
+                    style={{
+                      fontSize: "1.5vw",
+                      padding: "1.5vw 3vw",
+                      backgroundColor: "#f70776",
+                    }}
+                  >
+                    이용해보기
+                  </Comein>
+                </a>
+              </Link>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 style={{
