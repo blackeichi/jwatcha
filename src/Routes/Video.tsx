@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -109,8 +109,11 @@ const ContentButton = styled.div`
 `;
 const ContentLayout = styled(motion.div)`
   position: relative;
+  width: 100%;
 `;
-const ContentBox = styled.div`
+const ContentBox = styled(motion.div)`
+  position: absolute;
+
   display: grid;
 `;
 const Content_sub = styled.div``;
@@ -128,6 +131,17 @@ const IncreseIndexBtn = styled.div`
   align-items: center;
   cursor: pointer;
 `;
+const rowVariants = {
+  hidden: {
+    x: window.innerWidth + 100,
+  },
+  visible: {
+    x: 0,
+  },
+  exit: {
+    x: -window.innerWidth - 100,
+  },
+};
 
 function Video() {
   const { data: popularMovie, isLoading: popularLoading } =
@@ -169,9 +183,11 @@ function Video() {
     if (window.innerWidth >= 1000) {
       setMedium(true);
       setOffset(6);
+      setIndex(0);
     } else {
       setMedium(false);
       setOffset(3);
+      setIndex(0);
     }
   };
   window.addEventListener("resize", handleResize);
@@ -323,22 +339,30 @@ function Video() {
                 {topratedTvLoading ? (
                   <div>loading...</div>
                 ) : (
-                  <ContentBox
-                    style={
-                      !medium
-                        ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                        : { gridTemplateColumns: "repeat(6, 1fr)" }
-                    }
-                  >
-                    {topratedTv?.results
-                      .slice(0)
-                      .slice(offset * index, offset * index + offset)
-                      .map((data) => (
-                        <Content_sub key={data.id}>
-                          <ContentImg src={makeImg(data.poster_path)} />
-                        </Content_sub>
-                      ))}
-                  </ContentBox>
+                  <AnimatePresence initial={false}>
+                    <ContentBox
+                      style={
+                        !medium
+                          ? { gridTemplateColumns: "repeat(3, 1fr)" }
+                          : { gridTemplateColumns: "repeat(6, 1fr)" }
+                      }
+                      variants={rowVariants}
+                      key={index}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      transition={{ type: "tween", duration: 1 }}
+                    >
+                      {topratedTv?.results
+                        .slice(0)
+                        .slice(offset * index, offset * index + offset)
+                        .map((data) => (
+                          <Content_sub key={data.id}>
+                            <ContentImg src={makeImg(data.poster_path)} />
+                          </Content_sub>
+                        ))}
+                    </ContentBox>
+                  </AnimatePresence>
                 )}
 
                 <IncreseIndexBtn
