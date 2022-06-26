@@ -109,7 +109,6 @@ const ContentButton = styled.div`
 `;
 const ContentLayout = styled(motion.div)`
   position: relative;
-  width: 100%;
 `;
 const ContentBox = styled(motion.div)`
   position: absolute;
@@ -133,13 +132,16 @@ const IncreseIndexBtn = styled.div`
 `;
 const rowVariants = {
   hidden: {
-    x: window.innerWidth + 100,
+    x: window.outerWidth + 10,
+    opacity: 0,
   },
   visible: {
     x: 0,
+    opacity: 1,
   },
   exit: {
-    x: -window.innerWidth - 100,
+    x: -window.outerWidth - 10,
+    opacity: 0,
   },
 };
 
@@ -175,36 +177,47 @@ function Video() {
   const [small, setSmall] = useState(false);
   const [medium, setMedium] = useState(false);
   const handleResize = () => {
+    console.log(index);
     if (window.innerWidth <= 650) {
       setSmall(true);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 1000) {
-      setMedium(true);
-      setOffset(6);
-      setIndex(0);
+    if (window.innerWidth >= 1100) {
+      if (!medium) {
+        setMedium(true);
+        setOffset(6);
+        setIndex(Math.floor(index / 2));
+      }
     } else {
-      setMedium(false);
-      setOffset(3);
-      setIndex(0);
+      if (medium) {
+        setMedium(false);
+        setOffset(3);
+        setIndex(Math.floor(index * 2));
+        console.log(index);
+      }
     }
   };
-  window.addEventListener("resize", handleResize);
+
   useEffect(() => {
+    window.addEventListener("resize", handleResize);
     if (window.innerWidth <= 650) {
       setSmall(true);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 1000) {
+    if (window.innerWidth >= 1100) {
       setMedium(true);
       setOffset(6);
     } else {
       setMedium(false);
       setOffset(3);
     }
-  }, []);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      //컴포넌트가 자주 리렌더 될 경우에는 이로 인해 심각한 메모리 누수가 발생할 수 있다. 따라서 리렌더된 후, 새로운 리스너가 생기기 이전에 기존의 리스너를 제거해줘야함
+    };
+  }, [window.innerWidth]);
   const onClickcontent = (content: string) => {
     setContent(content);
   };
@@ -213,9 +226,11 @@ function Video() {
     if (topratedTv) {
       const total = topratedTv.results.length - 2;
       const maxIndex = Math.floor(total / offset) - 1;
+      console.log(maxIndex);
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
   };
+
   const [hover, setHover] = useState(false);
   return (
     <Homelayout>
