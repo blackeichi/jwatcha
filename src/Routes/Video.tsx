@@ -27,7 +27,8 @@ const Homeheader = styled.div`
 const Content = styled.div`
   color: white;
   margin-top: 8vh;
-  padding: 8vh 5vh;
+  padding: 8vh 0;
+  padding-left: 5vh;
 `;
 const Homelayout = styled.div`
   background-color: black;
@@ -39,6 +40,7 @@ const Home = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-right: 5vh;
   h1 {
     width: 100%;
     font-size: 5vh;
@@ -109,24 +111,26 @@ const ContentButton = styled.div`
 `;
 const ContentLayout = styled(motion.div)`
   position: relative;
+  height: 200px;
 `;
 const ContentBox = styled(motion.div)`
   position: absolute;
-
+  width: 100%;
+  height: 100%;
   display: grid;
+  padding-right: 5vh;
+  box-sizing: border-box;
 `;
 const Content_sub = styled.div``;
 const ContentImg = styled.img`
   width: 100%;
 `;
 const IncreseIndexBtn = styled.div`
-  width: 30px;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: absolute;
-  right: 0px;
-  top: 0;
+  width: 5vh;
+  right: 0;
+  background-color: black;
   display: none;
+  position: absolute;
   align-items: center;
   cursor: pointer;
 `;
@@ -177,8 +181,7 @@ function Video() {
   const [small, setSmall] = useState(false);
   const [medium, setMedium] = useState(false);
   const handleResize = () => {
-    console.log(index);
-    if (window.innerWidth <= 650) {
+    if (window.innerWidth <= 800) {
       setSmall(true);
     } else {
       setSmall(false);
@@ -194,14 +197,13 @@ function Video() {
         setMedium(false);
         setOffset(3);
         setIndex(Math.floor(index * 2));
-        console.log(index);
       }
     }
   };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    if (window.innerWidth <= 650) {
+    if (window.innerWidth <= 800) {
       setSmall(true);
     } else {
       setSmall(false);
@@ -226,7 +228,6 @@ function Video() {
     if (topratedTv) {
       const total = topratedTv.results.length - 2;
       const maxIndex = Math.floor(total / offset) - 1;
-      console.log(maxIndex);
       setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
     }
   };
@@ -345,62 +346,59 @@ function Video() {
             </ContentButton>
           </ContentBtnlist>
           {content === "all" ? (
-            <div>
-              <ContentLayout
-                onHoverStart={() => setHover(true)}
-                onHoverEnd={() => setHover(false)}
-              >
-                <h1>왓챠 익스클루시브</h1>
-                {topratedTvLoading ? (
-                  <div>loading...</div>
-                ) : (
-                  <AnimatePresence initial={false}>
-                    <ContentBox
-                      style={
-                        !medium
-                          ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                          : { gridTemplateColumns: "repeat(6, 1fr)" }
-                      }
-                      variants={rowVariants}
-                      key={index}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                      transition={{ type: "tween", duration: 1 }}
-                    >
-                      {topratedTv?.results
-                        .slice(0)
-                        .slice(offset * index, offset * index + offset)
-                        .map((data) => (
-                          <Content_sub key={data.id}>
-                            <ContentImg src={makeImg(data.poster_path)} />
-                          </Content_sub>
-                        ))}
-                    </ContentBox>
-                  </AnimatePresence>
-                )}
-
-                <IncreseIndexBtn
-                  style={hover ? { display: "flex" } : { display: "none" }}
-                  onClick={increaseIndex}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
+            <ContentLayout
+              onHoverStart={() => setHover(true)}
+              onHoverEnd={() => setHover(false)}
+            >
+              <h1>왓챠 익스클루시브</h1>
+              {topratedTvLoading ? (
+                <div>loading...</div>
+              ) : (
+                <AnimatePresence initial={false}>
+                  <ContentBox
+                    style={
+                      !medium
+                        ? { gridTemplateColumns: "repeat(3, 1fr)" }
+                        : { gridTemplateColumns: "repeat(6, 1fr)" }
+                    }
+                    variants={rowVariants}
+                    key={index}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    transition={{ type: "tween", duration: 1 }}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </IncreseIndexBtn>
-              </ContentLayout>
-            </div>
+                    {topratedTv?.results
+                      .slice(0)
+                      .slice(offset * index, offset * index + offset)
+                      .map((data) => (
+                        <Content_sub key={data.id}>
+                          <ContentImg src={makeImg(data.poster_path)} />
+                        </Content_sub>
+                      ))}
+                  </ContentBox>
+                </AnimatePresence>
+              )}
+              <IncreseIndexBtn
+                style={hover ? { display: "flex" } : { display: "none" }}
+                onClick={increaseIndex}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </IncreseIndexBtn>
+            </ContentLayout>
           ) : null}
           {content === "movie" ? <div>movie</div> : null}
           {content === "tv" ? <div>tv</div> : null}
