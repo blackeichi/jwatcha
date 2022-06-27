@@ -28,7 +28,6 @@ const Content = styled.div`
   color: white;
   margin-top: 8vh;
   padding: 8vh 0;
-  padding-left: 5vh;
 `;
 const Homelayout = styled.div`
   background-color: black;
@@ -40,7 +39,7 @@ const Home = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-right: 5vh;
+  padding: 0 5vh;
   h1 {
     width: 100%;
     font-size: 5vh;
@@ -63,6 +62,7 @@ const Homecontentsemi = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 3vh;
+
   span {
     font-size: 1vh;
     color: darkgray;
@@ -95,6 +95,8 @@ const ContentBtnlist = styled.div`
   display: flex;
   padding: 30px 0;
   gap: 10px;
+  padding-left: 5vh;
+  box-sizing: border-box;
 `;
 const ContentButton = styled.div`
   max-width: 100px;
@@ -111,15 +113,22 @@ const ContentButton = styled.div`
 `;
 const ContentLayout = styled(motion.div)`
   position: relative;
-  height: 200px;
+  height: 300px;
+  h1 {
+    font-size: 1.8vh;
+    font-weight: 800;
+    padding: 1vh 5vh;
+  }
 `;
 const ContentBox = styled(motion.div)`
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 300px;
   display: grid;
-  padding-right: 5vh;
+  padding: 0 5vh;
+  align-items: center;
   box-sizing: border-box;
+  overflow: hidden;
 `;
 const Content_sub = styled.div``;
 const ContentImg = styled.img`
@@ -127,6 +136,7 @@ const ContentImg = styled.img`
 `;
 const IncreseIndexBtn = styled.div`
   width: 5vh;
+  height: 300px;
   right: 0;
   background-color: black;
   display: none;
@@ -134,9 +144,16 @@ const IncreseIndexBtn = styled.div`
   align-items: center;
   cursor: pointer;
 `;
+const Block = styled.div`
+  width: 5vh;
+  height: 300px;
+  left: 0;
+  background-color: black;
+  position: absolute;
+`;
 const rowVariants = {
   hidden: {
-    x: window.outerWidth + 10,
+    x: window.innerWidth + 10,
     opacity: 0,
   },
   visible: {
@@ -144,7 +161,7 @@ const rowVariants = {
     opacity: 1,
   },
   exit: {
-    x: -window.outerWidth - 10,
+    x: -window.innerWidth - 10,
     opacity: 0,
   },
 };
@@ -178,42 +195,70 @@ function Video() {
   );
   const [offset, setOffset] = useState(6);
   const [content, setContent] = useState("all");
+  const [xsmall, setXsmall] = useState(false);
   const [small, setSmall] = useState(false);
-  const [medium, setMedium] = useState(false);
+  const [medium, setmedium] = useState(false);
+  const [large, setlarge] = useState(false);
   const handleResize = () => {
-    if (window.innerWidth <= 800) {
+    if (window.innerWidth <= 600) {
+      setXsmall(true);
+      setOffset(2);
+      setIndex(0);
+    } else {
+      setXsmall(false);
+    }
+    if (window.innerWidth <= 950 && window.innerWidth > 600) {
       setSmall(true);
+      setOffset(3);
+      setIndex(0);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 1100) {
-      if (!medium) {
-        setMedium(true);
+    if (window.innerWidth >= 1400) {
+      if (!large) {
+        setlarge(true);
         setOffset(6);
-        setIndex(Math.floor(index / 2));
+        setIndex(0);
       }
     } else {
-      if (medium) {
-        setMedium(false);
-        setOffset(3);
-        setIndex(Math.floor(index * 2));
+      if (large) {
+        setlarge(false);
       }
+    }
+    if (window.innerWidth > 950 && window.innerWidth < 1400) {
+      setmedium(true);
+      setIndex(0);
+      setOffset(4);
+    } else {
+      setmedium(false);
     }
   };
 
   useEffect(() => {
     window.addEventListener("resize", handleResize);
-    if (window.innerWidth <= 800) {
+    if (window.innerWidth <= 600) {
+      setXsmall(true);
+      setOffset(2);
+    } else {
+      setXsmall(false);
+    }
+    if (window.innerWidth <= 950 && window.innerWidth > 600) {
       setSmall(true);
+      setOffset(3);
     } else {
       setSmall(false);
     }
-    if (window.innerWidth >= 1100) {
-      setMedium(true);
+    if (window.innerWidth >= 1400) {
+      setlarge(true);
       setOffset(6);
     } else {
-      setMedium(false);
-      setOffset(3);
+      setlarge(false);
+    }
+    if (window.innerWidth > 950 && window.innerWidth < 1400) {
+      setmedium(true);
+      setOffset(4);
+    } else {
+      setmedium(false);
     }
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -235,11 +280,11 @@ function Video() {
   const [hover, setHover] = useState(false);
   return (
     <Homelayout>
-      {small ? null : <Side></Side>}
+      {small || xsmall ? null : <Side></Side>}
 
       <div
         style={
-          small
+          small || xsmall
             ? {
                 backgroundColor: "black",
                 marginLeft: "0",
@@ -263,7 +308,7 @@ function Video() {
             <Homecontent>
               <Homecontentsemi
                 style={
-                  medium ? { width: "30%", height: "21vw" } : { width: "100%" }
+                  large ? { width: "30%", height: "21vw" } : { width: "100%" }
                 }
               >
                 <span>스테디셀러</span>
@@ -277,7 +322,7 @@ function Video() {
               </Homecontentsemi>
               <Homecontentsemi
                 style={
-                  medium ? { width: "30%", height: "21vw" } : { width: "100%" }
+                  large ? { width: "30%", height: "21vw" } : { width: "100%" }
                 }
               >
                 <span>베스트 셀렉션</span>
@@ -289,7 +334,7 @@ function Video() {
               </Homecontentsemi>
               <Homecontentsemi
                 style={
-                  medium ? { width: "30%", height: "21vw" } : { width: "100%" }
+                  large ? { width: "30%", height: "21vw" } : { width: "100%" }
                 }
               >
                 <span>왓챠 Trend</span>
@@ -357,9 +402,13 @@ function Video() {
                 <AnimatePresence initial={false}>
                   <ContentBox
                     style={
-                      !medium
+                      large
+                        ? { gridTemplateColumns: "repeat(6, 1fr)" }
+                        : medium
+                        ? { gridTemplateColumns: "repeat(4, 1fr)" }
+                        : small
                         ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                        : { gridTemplateColumns: "repeat(6, 1fr)" }
+                        : { gridTemplateColumns: "repeat(2, 1fr)" }
                     }
                     variants={rowVariants}
                     key={index}
@@ -380,7 +429,13 @@ function Video() {
                 </AnimatePresence>
               )}
               <IncreseIndexBtn
-                style={hover ? { display: "flex" } : { display: "none" }}
+                style={
+                  small
+                    ? { display: "flex" }
+                    : hover
+                    ? { display: "flex" }
+                    : { display: "none" }
+                }
                 onClick={increaseIndex}
               >
                 <svg
@@ -398,6 +453,7 @@ function Video() {
                   />
                 </svg>
               </IncreseIndexBtn>
+              <Block></Block>
             </ContentLayout>
           ) : null}
           {content === "movie" ? <div>movie</div> : null}
