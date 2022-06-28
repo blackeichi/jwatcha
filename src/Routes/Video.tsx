@@ -10,6 +10,8 @@ import {
   makeImg,
 } from "../apit";
 import Side from "../Components/Side";
+import Exclusive from "../Components/Exclusive";
+import Populartv from "../Components/Populartv";
 
 const Homeheader = styled.div`
   width: 100%;
@@ -111,60 +113,7 @@ const ContentButton = styled.div`
   font-size: 15px;
   color: darkgray;
 `;
-const ContentLayout = styled(motion.div)`
-  position: relative;
-  height: 300px;
-  h1 {
-    font-size: 1.8vh;
-    font-weight: 800;
-    padding: 1vh 5vh;
-  }
-`;
-const ContentBox = styled(motion.div)`
-  position: absolute;
-  width: 100%;
-  height: 300px;
-  display: grid;
-  padding: 0 5vh;
-  align-items: center;
-  box-sizing: border-box;
-  overflow: hidden;
-`;
-const Content_sub = styled.div``;
-const ContentImg = styled.img`
-  width: 100%;
-`;
-const IncreseIndexBtn = styled.div`
-  width: 5vh;
-  height: 300px;
-  right: 0;
-  background-color: black;
-  display: none;
-  position: absolute;
-  align-items: center;
-  cursor: pointer;
-`;
-const Block = styled.div`
-  width: 5vh;
-  height: 300px;
-  left: 0;
-  background-color: black;
-  position: absolute;
-`;
-const rowVariants = {
-  hidden: {
-    x: window.innerWidth + 10,
-    opacity: 0,
-  },
-  visible: {
-    x: 0,
-    opacity: 1,
-  },
-  exit: {
-    x: -window.innerWidth - 10,
-    opacity: 0,
-  },
-};
+const AllLayout = styled.div``;
 
 function Video() {
   const { data: popularMovie, isLoading: popularLoading } =
@@ -187,13 +136,10 @@ function Video() {
     ["Tv", "latest"],
     () => getPopularTv("latest")
   );
-  const { data: topratedTv, isLoading: topratedTvLoading } =
-    useQuery<IGetResult>(["Tv", "top_rated"], () => getPopularTv("top_rated"));
   const { data: trending, isLoading: trendingLoading } = useQuery<IGetResult>(
     ["trend", "trending"],
     getTrending
   );
-  const [offset, setOffset] = useState(6);
   const [content, setContent] = useState("all");
   const [xsmall, setXsmall] = useState(false);
   const [small, setSmall] = useState(false);
@@ -202,23 +148,17 @@ function Video() {
   const handleResize = () => {
     if (window.innerWidth <= 600) {
       setXsmall(true);
-      setOffset(2);
-      setIndex(0);
     } else {
       setXsmall(false);
     }
     if (window.innerWidth <= 950 && window.innerWidth > 600) {
       setSmall(true);
-      setOffset(3);
-      setIndex(0);
     } else {
       setSmall(false);
     }
     if (window.innerWidth >= 1400) {
       if (!large) {
         setlarge(true);
-        setOffset(6);
-        setIndex(0);
       }
     } else {
       if (large) {
@@ -227,8 +167,6 @@ function Video() {
     }
     if (window.innerWidth > 950 && window.innerWidth < 1400) {
       setmedium(true);
-      setIndex(0);
-      setOffset(4);
     } else {
       setmedium(false);
     }
@@ -238,25 +176,21 @@ function Video() {
     window.addEventListener("resize", handleResize);
     if (window.innerWidth <= 600) {
       setXsmall(true);
-      setOffset(2);
     } else {
       setXsmall(false);
     }
     if (window.innerWidth <= 950 && window.innerWidth > 600) {
       setSmall(true);
-      setOffset(3);
     } else {
       setSmall(false);
     }
     if (window.innerWidth >= 1400) {
       setlarge(true);
-      setOffset(6);
     } else {
       setlarge(false);
     }
     if (window.innerWidth > 950 && window.innerWidth < 1400) {
       setmedium(true);
-      setOffset(4);
     } else {
       setmedium(false);
     }
@@ -268,16 +202,6 @@ function Video() {
   const onClickcontent = (content: string) => {
     setContent(content);
   };
-  const [index, setIndex] = useState(0);
-  const increaseIndex = () => {
-    if (topratedTv) {
-      const total = topratedTv.results.length - 2;
-      const maxIndex = Math.floor(total / offset) - 1;
-      setIndex((prev) => (prev === maxIndex ? 0 : prev + 1));
-    }
-  };
-
-  const [hover, setHover] = useState(false);
   return (
     <Homelayout>
       {small || xsmall ? null : <Side></Side>}
@@ -391,70 +315,30 @@ function Video() {
             </ContentButton>
           </ContentBtnlist>
           {content === "all" ? (
-            <ContentLayout
-              onHoverStart={() => setHover(true)}
-              onHoverEnd={() => setHover(false)}
-            >
-              <h1>왓챠 익스클루시브</h1>
-              {topratedTvLoading ? (
-                <div>loading...</div>
-              ) : (
-                <AnimatePresence initial={false}>
-                  <ContentBox
-                    style={
-                      large
-                        ? { gridTemplateColumns: "repeat(6, 1fr)" }
-                        : medium
-                        ? { gridTemplateColumns: "repeat(4, 1fr)" }
-                        : small
-                        ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                        : { gridTemplateColumns: "repeat(2, 1fr)" }
-                    }
-                    variants={rowVariants}
-                    key={index}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    transition={{ type: "tween", duration: 1 }}
-                  >
-                    {topratedTv?.results
-                      .slice(0)
-                      .slice(offset * index, offset * index + offset)
-                      .map((data) => (
-                        <Content_sub key={data.id}>
-                          <ContentImg src={makeImg(data.poster_path)} />
-                        </Content_sub>
-                      ))}
-                  </ContentBox>
-                </AnimatePresence>
-              )}
-              <IncreseIndexBtn
-                style={
-                  small
-                    ? { display: "flex" }
-                    : hover
-                    ? { display: "flex" }
-                    : { display: "none" }
-                }
-                onClick={increaseIndex}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </IncreseIndexBtn>
-              <Block></Block>
-            </ContentLayout>
+            <AllLayout>
+              <Exclusive
+              /*                 size={
+                  large
+                    ? "large"
+                    : medium
+                    ? "medium"
+                    : small
+                    ? "small"
+                    : "xsmall"
+                } */
+              ></Exclusive>
+              <Populartv
+              /*                 size={
+                  large
+                    ? "large"
+                    : medium
+                    ? "medium"
+                    : small
+                    ? "small"
+                    : "xsmall"
+                } */
+              ></Populartv>
+            </AllLayout>
           ) : null}
           {content === "movie" ? <div>movie</div> : null}
           {content === "tv" ? <div>tv</div> : null}
