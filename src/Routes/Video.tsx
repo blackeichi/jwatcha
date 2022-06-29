@@ -25,6 +25,7 @@ const Homeheader = styled.div`
   justify-content: end;
   align-items: center;
   padding: 0 5vh;
+  z-index: 1;
 `;
 const Content = styled.div`
   color: white;
@@ -113,7 +114,10 @@ const ContentButton = styled.div`
   font-size: 15px;
   color: darkgray;
 `;
-const AllLayout = styled.div``;
+const AllLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 function Video() {
   const { data: popularMovie, isLoading: popularLoading } =
@@ -223,7 +227,6 @@ function Video() {
           <img
             style={{ width: "5vh", height: "5vh", borderRadius: "50%" }}
             src="http://www.casenews.co.kr/news/photo/202202/10638_22049_4541.jpg"
-            alt=""
           />
         </Homeheader>
         <Content>
@@ -316,28 +319,8 @@ function Video() {
           </ContentBtnlist>
           {content === "all" ? (
             <AllLayout>
-              <Exclusive
-              /*                 size={
-                  large
-                    ? "large"
-                    : medium
-                    ? "medium"
-                    : small
-                    ? "small"
-                    : "xsmall"
-                } */
-              ></Exclusive>
-              <Populartv
-              /*                 size={
-                  large
-                    ? "large"
-                    : medium
-                    ? "medium"
-                    : small
-                    ? "small"
-                    : "xsmall"
-                } */
-              ></Populartv>
+              <Exclusive></Exclusive>
+              <Populartv></Populartv>
             </AllLayout>
           ) : null}
           {content === "movie" ? <div>movie</div> : null}

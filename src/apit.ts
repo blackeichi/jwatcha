@@ -17,6 +17,7 @@ export interface IGetResult {
       overview: string;
       first_air_date: string;
       name: string;
+      adult: boolean;
     }
   ];
 }

@@ -23,6 +23,7 @@ const ContentBox = styled(motion.div)`
 `;
 const Content_sub = styled(motion.div)`
   overflow: hidden;
+  position: relative;
   height: 300px;
   cursor: pointer;
   &:first-child {
@@ -32,8 +33,46 @@ const Content_sub = styled(motion.div)`
     transform-origin: center right;
   }
 `;
-const ContentImg = styled.img`
+
+const ContentImg = styled(motion.img)`
   width: 100%;
+`;
+const ContentInfo = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+  justify-content: flex-end;
+  display: flex;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  opacity: 0;
+  gap: 5px;
+`;
+const ContentInfo_title = styled.div`
+  display: flex;
+  h2 {
+    font-size: 2vmax;
+    font-weight: 800;
+  }
+  h3 {
+    font-size: 1.5vmax;
+    padding: 5px;
+    background-color: orange;
+    border-radius: 50%;
+    margin-left: 4px;
+  }
+`;
+const ContentInfo_date = styled.h2`
+  font-size: 1.5vmax;
+  font-weight: 800;
+  color: lightgray;
+`;
+const ContentInfo_vote = styled.h2`
+  font-size: 1.9vmax;
 `;
 const IncreseIndexBtn = styled.div`
   width: 5vh;
@@ -52,6 +91,7 @@ const Block = styled.div`
   background-color: black;
   position: absolute;
 `;
+
 const rowVariants = {
   hidden: {
     x: window.innerWidth + 10,
@@ -69,12 +109,24 @@ const rowVariants = {
 const boxVariants = {
   normal: {
     scale: 1,
+    transition: {
+      duration: 0.3,
+    },
   },
   hover: {
     scale: 1.15,
     y: -30,
+    zIndex: 1,
     transition: {
       delay: 0.5,
+    },
+  },
+};
+const infoVariants = {
+  hover: {
+    opacity: 1,
+    transition: {
+      type: "tween",
     },
   },
 };
@@ -195,9 +247,21 @@ export default function Populartv(props: any) {
                 <Content_sub
                   key={data.id}
                   whileHover="hover"
+                  initial="normal"
+                  exit="normal"
                   variants={boxVariants}
                 >
                   <ContentImg src={makeImg(data.poster_path)} />
+                  <ContentInfo whileHover="hover" variants={infoVariants}>
+                    <ContentInfo_title
+                      style={data.adult ? { backgroundColor: "tomato" } : {}}
+                    >
+                      <h2>{data.name}</h2>
+                      <h3>{data.adult ? 19 : 15}</h3>
+                    </ContentInfo_title>
+                    <ContentInfo_date>{data.first_air_date}</ContentInfo_date>
+                    <ContentInfo_vote>{data.vote_average}</ContentInfo_vote>
+                  </ContentInfo>
                 </Content_sub>
               ))}
           </ContentBox>
