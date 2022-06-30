@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { getPopularTv, IGetResult, makeImg } from "../apit";
 const ContentLayout = styled(motion.div)`
@@ -53,17 +54,23 @@ const ContentInfo = styled(motion.div)`
   gap: 5px;
 `;
 const ContentInfo_title = styled.div`
-  display: flex;
-  h2 {
-    font-size: 2vmax;
+  span {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
     font-weight: 800;
+    box-sizing: content-box;
   }
   h3 {
-    font-size: 1.5vmax;
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    width: 25px;
+    height: 25px;
     background-color: orange;
     border-radius: 50%;
-    margin-left: 4px;
+    margin-left: 5px;
   }
 `;
 const ContentInfo_date = styled.h2`
@@ -131,6 +138,7 @@ const infoVariants = {
   },
 };
 export default function Populartv(props: any) {
+  const history = useNavigate();
   const { data: popularTv, isLoading: popularTvLoading } = useQuery<IGetResult>(
     ["Tv", "popular"],
     () => getPopularTv("popular")
@@ -213,6 +221,9 @@ export default function Populartv(props: any) {
     }
   };
   const [hover, setHover] = useState(false);
+  const onClickContent = (id: number) => {
+    history(`/content/${id}`);
+  };
   return (
     <ContentLayout
       onHoverStart={() => setHover(true)}
@@ -250,14 +261,17 @@ export default function Populartv(props: any) {
                   initial="normal"
                   exit="normal"
                   variants={boxVariants}
+                  onClick={() => onClickContent(data.id)}
                 >
                   <ContentImg src={makeImg(data.poster_path)} />
                   <ContentInfo whileHover="hover" variants={infoVariants}>
                     <ContentInfo_title
                       style={data.adult ? { backgroundColor: "tomato" } : {}}
                     >
-                      <h2>{data.name}</h2>
-                      <h3>{data.adult ? 19 : 15}</h3>
+                      <span>
+                        {data.name}
+                        <h3> {data.adult ? 19 : 15}</h3>
+                      </span>
                     </ContentInfo_title>
                     <ContentInfo_date>{data.first_air_date}</ContentInfo_date>
                     <ContentInfo_vote>{data.vote_average}</ContentInfo_vote>

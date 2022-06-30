@@ -12,7 +12,7 @@ const Sidepart = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  z-index: 1;
+  z-index: 2;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-left: none;
   box-sizing: border-box;
