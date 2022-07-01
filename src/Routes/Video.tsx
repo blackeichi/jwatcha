@@ -24,7 +24,7 @@ const Homeheader = styled.div`
   display: flex;
   justify-content: end;
   align-items: center;
-  padding: 0 5vh;
+  padding: 0 2vh;
   z-index: 1;
 `;
 const Content = styled.div`

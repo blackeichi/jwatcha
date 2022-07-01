@@ -222,7 +222,7 @@ export default function Populartv(props: any) {
   };
   const [hover, setHover] = useState(false);
   const onClickContent = (id: number) => {
-    history(`/content/${id}`);
+    history(`/content/?id=${id}#tv`);
   };
   return (
     <ContentLayout

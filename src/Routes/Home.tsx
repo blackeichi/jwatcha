@@ -74,7 +74,7 @@ function Home() {
                   style={{
                     fontSize: "1.5vw",
                     padding: "1.5vw 3vw",
-                    backgroundColor: "#f70776",
+                    backgroundColor: "#FF3D6E",
                   }}
                 >
                   이용해보기
@@ -118,7 +118,7 @@ function Home() {
                     style={{
                       fontSize: "1.5vw",
                       padding: "1.5vw 3vw",
-                      backgroundColor: "#f70776",
+                      backgroundColor: "#FF3D6E",
                     }}
                   >
                     이용해보기
@@ -163,7 +163,7 @@ function Home() {
                     style={{
                       fontSize: "1.5vw",
                       padding: "1.5vw 3vw",
-                      backgroundColor: "#f70776",
+                      backgroundColor: "#FF3D6E",
                     }}
                   >
                     이용해보기

@@ -14,7 +14,7 @@ function App() {
       <Switch>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/browse" element={<Video></Video>}></Route>
-        <Route path="/content/:id" element={<Content />}></Route>
+        <Route path="/content" element={<Content />}></Route>
       </Switch>
     </Router>
   );

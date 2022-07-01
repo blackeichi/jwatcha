@@ -37,3 +37,13 @@ export function getTrending() {
     (response) => response.json()
   );
 }
+export function getTv(id?: string) {
+  return fetch(`${BASE_PATH}/tv/${id}?api_key=${API_KEY}&language=en-US`).then(
+    (response) => response.json()
+  );
+}
+export function getMovie(id?: string) {
+  return fetch(
+    `${BASE_PATH}/movie/${id}?api_key=${API_KEY}&language=en-US`
+  ).then((response) => response.json());
+}
