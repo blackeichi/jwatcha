@@ -47,3 +47,8 @@ export function getMovie(id?: string) {
     `${BASE_PATH}/movie/${id}?api_key=${API_KEY}&language=en-US`
   ).then((response) => response.json());
 }
+export function getSimilarTv(id?: string) {
+  return fetch(
+    `${BASE_PATH}/tv/${id}/similar?api_key=${API_KEY}&language=en-US`
+  ).then((response) => response.json());
+}

@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import Home from "./Routes/Home";
 import Video from "./Routes/Video";
-import Content from "./Routes/Content";
+import Tv from "./Routes/Tv";
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <Switch>
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/browse" element={<Video></Video>}></Route>
-        <Route path="/content" element={<Content />}></Route>
+        <Route path="/tv" element={<Tv />}></Route>
       </Switch>
     </Router>
   );
