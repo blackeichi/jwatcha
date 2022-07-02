@@ -63,13 +63,12 @@ const ContentMain = styled.div`
 const ContentImg = styled.img`
   width: 20vh;
 `;
-const ContentAdult = styled.h2`
-  padding: 1vh;
-  background-color: gray;
-  border-radius: 50%;
-  font-weight: 800;
-  font-size: 2vh;
+const ContentSeason = styled.h1`
+  border-radius: 15px;
+  padding: 1vh 2vh;
+  border: 1px solid white;
 `;
+
 const ContentName = styled.h1`
   font-size: 3vh;
   font-weight: 800;
@@ -85,6 +84,11 @@ const ContentGenres = styled.h2`
     margin-right: 1vh;
   }
 `;
+const ContentText = styled.span`
+  width: 40vh;
+  font-size: 1.8vh;
+  color: rgba(255, 255, 255, 0.7);
+`;
 const ContentBtn = styled(motion.div)`
   background-color: #ff3d6e;
   display: flex;
@@ -99,6 +103,18 @@ const ContentBtn = styled(motion.div)`
     font-weight: 700;
     font-size: 1.6vh;
   }
+`;
+const ContentAdult = styled.h2`
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  font-weight: 800;
+  font-size: 1.5vh;
+  width: 3vh;
+  height: 3vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3vh;
 `;
 const Btnvariants = {
   hover: {
@@ -213,7 +229,10 @@ function Content() {
               {" "}
               <ContentMain>
                 <ContentImg src={makeImg(tvshow?.poster_path)}></ContentImg>
-                <ContentAdult>{tvshow?.adult ? 19 : 15}</ContentAdult>
+                <ContentSeason>
+                  시즌 에피소드 {tvshow.seasons.length}
+                </ContentSeason>
+
                 <ContentName>{tvshow?.name}</ContentName>
                 <Contentvote>
                   {tvshow.genres.map((data) => (
@@ -222,7 +241,11 @@ function Content() {
                   평점 : {tvshow.vote_average}
                 </Contentvote>
 
-                <ContentBtn whileHover="hover" variants={Btnvariants}>
+                <ContentBtn
+                  whileHover="hover"
+                  variants={Btnvariants}
+                  onClick={clickWatch}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     style={{ width: "4vh", height: "4vh" }}
@@ -230,7 +253,6 @@ function Content() {
                     viewBox="0 0 24 24"
                     stroke="currentColor"
                     stroke-width="1.8"
-                    onClick={clickWatch}
                   >
                     <path
                       stroke-linecap="round"
@@ -245,6 +267,10 @@ function Content() {
                   </svg>
                   <h1>감상하기</h1>
                 </ContentBtn>
+                <ContentText>
+                  [왓챠 오리지널] {tvshow.overview}
+                  <ContentAdult>{tvshow?.adult ? 19 : 15}</ContentAdult>
+                </ContentText>
               </ContentMain>
             </>
           ) : (
