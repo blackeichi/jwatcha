@@ -74,12 +74,12 @@ const ContentInfo_title = styled.div`
   }
 `;
 const ContentInfo_date = styled.h2`
-  font-size: 1.5vmax;
+  font-size: 1.5vh;
   font-weight: 800;
   color: lightgray;
 `;
 const ContentInfo_vote = styled.h2`
-  font-size: 1.9vmax;
+  font-size: 1.9vh;
 `;
 const IncreseIndexBtn = styled.div`
   width: 5vh;
@@ -229,7 +229,7 @@ export default function Populartv(props: any) {
       onHoverStart={() => setHover(true)}
       onHoverEnd={() => setHover(false)}
     >
-      <h1>왓챠 최고 인기작</h1>
+      <h1 style={xsmall ? { fontSize: "17px" } : {}}>왓챠 최고 인기작</h1>
       {popularTvLoading ? (
         <div>loading...</div>
       ) : (
@@ -242,7 +242,9 @@ export default function Populartv(props: any) {
                 ? { gridTemplateColumns: "repeat(4, 1fr)" }
                 : small
                 ? { gridTemplateColumns: "repeat(3, 1fr)" }
-                : { gridTemplateColumns: "repeat(2, 1fr)" }
+                : xsmall
+                ? { gridTemplateColumns: "repeat(2, 1fr)" }
+                : {}
             }
             variants={rowVariants}
             key={index}
@@ -262,6 +264,7 @@ export default function Populartv(props: any) {
                   exit="normal"
                   variants={boxVariants}
                   onClick={() => onClickContent(data.id)}
+                  style={xsmall ? { height: "250px" } : {}}
                 >
                   <ContentImg src={makeImg(data.poster_path)} />
                   <ContentInfo whileHover="hover" variants={infoVariants}>

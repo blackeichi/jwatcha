@@ -81,9 +81,11 @@ const Contentvote = styled.h2`
   display: flex;
   font-size: 2vh;
   font-weight: 400;
+  white-space: pre-line;
 `;
 const ContentGenres = styled.h2`
   color: gray;
+  font-size: 2vh;
   :last-child {
     margin-right: 1vh;
   }
@@ -142,8 +144,8 @@ const CotentSub = styled.div`
   margin-top: 3vh;
 `;
 const ContentTitle = styled.h1`
-  font-size: 2vh;
-  margin-bottom: 1vh;
+  font-size: 1.7vw;
+  margin-bottom: 1vw;
   font-weight: 700;
 `;
 const RelativeLayout = styled.div`
@@ -164,8 +166,8 @@ const RelativeImg = styled.img`
 const ContetNext = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1vh;
-  font-size: 1.5vh;
+  gap: 1vw;
+  font-size: 1vw;
 `;
 const LargeScreen = styled.div`
   display: flex;
@@ -274,7 +276,7 @@ function Tv() {
       window.open(tvshow?.homepage);
     }
   };
-  const [relative, setRelative] = useState(false);
+  const [relative, setRelative] = useState(true);
   const onClickInfo = () => {
     setRelative((prev) => !prev);
   };
@@ -364,16 +366,16 @@ function Tv() {
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
-                        stroke-width="1.8"
+                        strokeWidth="1.8"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                         />
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                         />
                       </svg>
@@ -391,7 +393,9 @@ function Tv() {
                   <ContentName>{tvshow?.name}</ContentName>
                   <Contentvote>
                     {tvshow.genres.map((data) => (
-                      <ContentGenres>{data.name}◦</ContentGenres>
+                      <ContentGenres key={data.name}>
+                        {data.name}◦
+                      </ContentGenres>
                     ))}
                     평점 : {tvshow.vote_average}
                   </Contentvote>
@@ -406,16 +410,16 @@ function Tv() {
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
-                      stroke-width="1.8"
+                      strokeWidth="1.8"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
                       />
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
@@ -444,43 +448,101 @@ function Tv() {
               </ContentInfo>
             </ContentMain>
             {relative ? (
-              <CotentSub>
-                <ContentTitle>비슷한 콘텐츠</ContentTitle>
-                <RelativeLayout>
-                  {similar?.results.map((data) => (
-                    <Relative
-                      key={data.id}
-                      whileHover="hover"
-                      initial="normal"
-                      exit="normal"
-                      variants={boxVariants}
-                      onClick={() => onClickContent(data.id)}
-                    >
-                      <RelativeImg
-                        src={makeImg(data.poster_path)}
-                      ></RelativeImg>
-                    </Relative>
-                  ))}
-                </RelativeLayout>
-              </CotentSub>
+              <div style={{ width: "100%" }}>
+                <CotentSub
+                  style={
+                    large
+                      ? { marginTop: "5vh" }
+                      : {
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }
+                  }
+                >
+                  <ContentTitle
+                    style={
+                      medium || small
+                        ? { fontSize: "25px", gap: "10px" }
+                        : xsmall
+                        ? { fontSize: "15px", gap: "5px" }
+                        : {}
+                    }
+                  >
+                    비슷한 콘텐츠
+                  </ContentTitle>
+                  <RelativeLayout>
+                    {similar?.results.map((data) => (
+                      <Relative
+                        key={data.id}
+                        whileHover="hover"
+                        initial="normal"
+                        exit="normal"
+                        variants={boxVariants}
+                        onClick={() => onClickContent(data.id)}
+                      >
+                        <RelativeImg
+                          src={makeImg(data.poster_path)}
+                        ></RelativeImg>
+                      </Relative>
+                    ))}
+                  </RelativeLayout>
+                </CotentSub>
+              </div>
             ) : (
-              <CotentSub style={large ? { marginTop: "5vh" } : {}}>
-                <ContentTitle>다음 에피소드</ContentTitle>
-                <ContetNext>
-                  <h1>다음 방영일 : {tvshow.next_episode_to_air.air_date}</h1>
-                  <h1>
-                    다음 회차 : {tvshow.next_episode_to_air.episode_number} 화
-                  </h1>
-                  {tvshow.next_episode_to_air.name ? (
-                    <h1>
-                      Next episode name : {tvshow.next_episode_to_air.name}
-                    </h1>
-                  ) : null}
-                  {tvshow.next_episode_to_air.overview ? (
-                    <h1>{tvshow.next_episode_to_air.overview}</h1>
-                  ) : null}
-                </ContetNext>
-              </CotentSub>
+              <div style={{ width: "100%" }}>
+                <CotentSub
+                  style={
+                    large
+                      ? { marginTop: "5vh" }
+                      : {
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }
+                  }
+                >
+                  <ContentTitle
+                    style={
+                      medium || small
+                        ? { fontSize: "25px", gap: "10px" }
+                        : xsmall
+                        ? { fontSize: "15px", gap: "5px" }
+                        : {}
+                    }
+                  >
+                    다음 에피소드
+                  </ContentTitle>
+                  <ContetNext
+                    style={
+                      medium || small
+                        ? { fontSize: "15px", gap: "10px" }
+                        : xsmall
+                        ? { fontSize: "10px", gap: "5px" }
+                        : {}
+                    }
+                  >
+                    {tvshow.next_episode_to_air ? (
+                      <>
+                        {" "}
+                        <h1>
+                          다음 방영일 : {tvshow.next_episode_to_air?.air_date}
+                        </h1>
+                        <h1>
+                          다음 회차 :{" "}
+                          {tvshow.next_episode_to_air.episode_number} 화
+                        </h1>
+                        <h1>
+                          Next episode name : {tvshow.next_episode_to_air.name}
+                        </h1>
+                        <h1>{tvshow.next_episode_to_air.overview}</h1>
+                      </>
+                    ) : (
+                      <h1>◽ Sorry, No Content Info</h1>
+                    )}
+                  </ContetNext>
+                </CotentSub>
+              </div>
             )}
           </>
         ) : (
