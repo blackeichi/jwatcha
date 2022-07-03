@@ -64,6 +64,7 @@ const ContentMain = styled.div`
   gap: 2vh;
 `;
 const ContentImg = styled.img`
+  border-radius: 10px;
   width: 20vh;
 `;
 const ContentSeason = styled.h1`
@@ -165,6 +166,11 @@ const ContetNext = styled.div`
   flex-direction: column;
   gap: 1vh;
   font-size: 1.5vh;
+`;
+const LargeScreen = styled.div`
+  display: flex;
+  gap: 30px;
+  width: 60%;
 `;
 
 const Btnvariants = {
@@ -292,6 +298,7 @@ function Tv() {
                 marginLeft: "0",
               }
             : {
+                minHeight: "100vh",
                 backgroundColor: "black",
                 marginLeft: "35vh",
               }
@@ -300,50 +307,127 @@ function Tv() {
         {tvshow ? (
           <>
             {" "}
-            <ContentMain>
-              <ContentImg src={makeImg(tvshow?.poster_path)}></ContentImg>
-              <ContentSeason>
-                시즌 에피소드 {tvshow.seasons.length}
-              </ContentSeason>
+            <ContentMain
+              style={large ? { width: "100%", alignItems: "start" } : {}}
+            >
+              {large ? (
+                <>
+                  {" "}
+                  <LargeScreen>
+                    <ContentImg src={makeImg(tvshow?.poster_path)}></ContentImg>
+                    <div>
+                      <div style={{ height: "40%" }}></div>
+                      <ContentName style={{ fontSize: "7vh" }}>
+                        {tvshow?.name}
+                      </ContentName>
+                      <Contentvote
+                        style={{
+                          fontSize: "1.6vh",
+                          fontWeight: 700,
+                          margin: "1vh 0",
+                          alignItems: "center",
+                        }}
+                      >
+                        {tvshow.genres.map((data) => (
+                          <ContentGenres>{data.name}◦</ContentGenres>
+                        ))}
+                        평점 : {tvshow.vote_average}
+                        <ContentAdult style={{ margin: "0 10px" }}>
+                          {tvshow?.adult ? 19 : 15}
+                        </ContentAdult>
+                      </Contentvote>
+                      <ContentText
+                        style={{ fontSize: "1.6vh", fontWeight: 700 }}
+                      >
+                        [왓챠 오리지널] {tvshow.overview}
+                      </ContentText>
+                    </div>
+                  </LargeScreen>
+                  <div
+                    style={{
+                      width: "100%",
+                      borderTop: "1px solid rgba(255,255,255,0.2)",
+                      margin: "2vh 0",
+                      borderBottom: "1px solid rgba(255,255,255,0.2)",
+                    }}
+                  >
+                    {" "}
+                    <ContentBtn
+                      whileHover="hover"
+                      variants={Btnvariants}
+                      onClick={clickWatch}
+                      style={{ padding: "1vh 2vh", width: "10%" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={{ width: "4vh", height: "4vh" }}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <h1>감상하기</h1>
+                    </ContentBtn>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <ContentImg src={makeImg(tvshow?.poster_path)}></ContentImg>
+                  <ContentSeason>
+                    시즌 에피소드 {tvshow.seasons.length}
+                  </ContentSeason>
+                  <ContentName>{tvshow?.name}</ContentName>
+                  <Contentvote>
+                    {tvshow.genres.map((data) => (
+                      <ContentGenres>{data.name}◦</ContentGenres>
+                    ))}
+                    평점 : {tvshow.vote_average}
+                  </Contentvote>
+                  <ContentBtn
+                    whileHover="hover"
+                    variants={Btnvariants}
+                    onClick={clickWatch}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ width: "4vh", height: "4vh" }}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <h1>감상하기</h1>
+                  </ContentBtn>
+                  <ContentText>
+                    [왓챠 오리지널] {tvshow.overview}
+                    <ContentAdult>{tvshow?.adult ? 19 : 15}</ContentAdult>
+                  </ContentText>
+                </>
+              )}
 
-              <ContentName>{tvshow?.name}</ContentName>
-              <Contentvote>
-                {tvshow.genres.map((data) => (
-                  <ContentGenres>{data.name}◦</ContentGenres>
-                ))}
-                평점 : {tvshow.vote_average}
-              </Contentvote>
-
-              <ContentBtn
-                whileHover="hover"
-                variants={Btnvariants}
-                onClick={clickWatch}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  style={{ width: "4vh", height: "4vh" }}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <h1>감상하기</h1>
-              </ContentBtn>
-              <ContentText>
-                [왓챠 오리지널] {tvshow.overview}
-                <ContentAdult>{tvshow?.adult ? 19 : 15}</ContentAdult>
-              </ContentText>
               <ContentInfo>
                 <ContentInfo_Info
                   onClick={onClickInfo}
@@ -380,15 +464,21 @@ function Tv() {
                 </RelativeLayout>
               </CotentSub>
             ) : (
-              <CotentSub>
+              <CotentSub style={large ? { marginTop: "5vh" } : {}}>
                 <ContentTitle>다음 에피소드</ContentTitle>
                 <ContetNext>
                   <h1>다음 방영일 : {tvshow.next_episode_to_air.air_date}</h1>
                   <h1>
                     다음 회차 : {tvshow.next_episode_to_air.episode_number} 화
                   </h1>
-                  <h1>Next episode name : {tvshow.next_episode_to_air.name}</h1>
-                  <h1>{tvshow.next_episode_to_air.overview}</h1>
+                  {tvshow.next_episode_to_air.name ? (
+                    <h1>
+                      Next episode name : {tvshow.next_episode_to_air.name}
+                    </h1>
+                  ) : null}
+                  {tvshow.next_episode_to_air.overview ? (
+                    <h1>{tvshow.next_episode_to_air.overview}</h1>
+                  ) : null}
                 </ContetNext>
               </CotentSub>
             )}

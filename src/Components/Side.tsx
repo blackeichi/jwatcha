@@ -32,11 +32,14 @@ function Side() {
       <Link to="/browse">
         <Logo src="https://upload.wikimedia.org/wikipedia/commons/b/b8/%EC%99%93%EC%B1%A0_%EB%A1%9C%EA%B3%A0_2021.png" />
       </Link>
-      <Sidebtn
-        home={true}
-        here={location === "/browse" ? true : false}
-        text="홈"
-      ></Sidebtn>
+      <Link to="/browse">
+        <Sidebtn
+          home={true}
+          here={location === "/browse" ? true : false}
+          text="홈"
+        ></Sidebtn>
+      </Link>
+
       <Sidebtn
         search={true}
         here={location === "/search" ? true : false}
